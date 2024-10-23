@@ -219,79 +219,193 @@
 #for var in x,'red',1,'green',2,'blue':
 #    print(var)
 
+#A,B,C = input().split()
+#print(A)
+#
 #a,b,c = map(int,input().split())
 #print(a+b+c) 
 
 #for i in list(range(3)):
 #    print(i)
 
-'''RPG剪刀石頭布遊戲'''
+#'''RPG剪刀石頭布遊戲'''
+#import random
+#
+#'''定義角色的初始屬性'''
+#class Player:
+#    def __init__(self, name):
+#        self.name = name
+#        self.hp = 100
+#
+#    def take_damage(self, damage):
+#        self.hp -= damage
+#        if self.hp < 0:
+#            self.hp = 0
+#
+#    def is_alive(self):
+#        return self.hp > 0
+#
+#choices = ["剪刀", "石頭", "布"]
+#
+#'''判斷勝負的函數'''
+#def determine_winner(player_choice, computer_choice):
+#    if player_choice == computer_choice:
+#        return "平手"
+#    elif (player_choice == "剪刀" and computer_choice == "布") or \
+#         (player_choice == "布" and computer_choice == "石頭") or \
+#         (player_choice == "石頭" and computer_choice == "剪刀"):
+#        return "玩家"
+#    else:
+#        return "電腦"
+#'''遊戲主函數'''
+#def game():
+#    player_name = input("請輸入你的名字: ")
+#    player = Player(player_name)
+#    computer = Player("電腦")
+#
+#    print(f"歡迎來到剪刀石頭布對戰, {player.name}!")
+#
+#    while player.is_alive() and computer.is_alive():
+#        print(f"\n{player.name} 的HP: {player.hp} | 電腦的HP: {computer.hp}")
+#        
+#        # 玩家選擇
+#        player_choice = input("請選擇 (剪刀, 石頭, 布): ")
+#        while player_choice not in choices:
+#            print("無效的選擇，請重新選擇")
+#            player_choice = input("請選擇 (剪刀, 石頭, 布): ")
+#
+#        # 電腦隨機選擇
+#        computer_choice = random.choice(choices)
+#        print(f"電腦選擇了: {computer_choice}")
+#
+#        # 判斷勝負
+#        result = determine_winner(player_choice, computer_choice)
+#
+#        if result == "玩家":
+#            print(f"{player.name} 勝利！")
+#            computer.take_damage(20)
+#        elif result == "電腦":
+#            print("電腦勝利！")
+#            player.take_damage(20)
+#        else:
+#            print("這局平手！")
+#
+#    # 遊戲結束
+#    if player.is_alive():
+#        print(f"\n{player.name} 獲勝了！")
+#    else:
+#        print("\n電腦獲勝了！")
+#
+## 開始遊戲
+#game()
+
+#for i in 'red', 'green', 'blue':
+#    print(i)
+
 import random
 
-'''定義角色的初始屬性'''
+# 定義地圖上的地點，每個地點可以購買或者交租金
+class Place:
+    def __init__(self, name, price, rent):
+        self.name = name
+        self.price = price
+        self.rent = rent
+        self.owner = None
+
+# 定義玩家
 class Player:
     def __init__(self, name):
         self.name = name
-        self.hp = 100
+        self.money = 1500  # 初始金額
+        self.position = 0  # 起始位置
+        self.properties = []  # 擁有的房地產
 
-    def take_damage(self, damage):
-        self.hp -= damage
-        if self.hp < 0:
-            self.hp = 0
+    def move(self, steps, board_size):
+        self.position = (self.position + steps) % board_size
 
-    def is_alive(self):
-        return self.hp > 0
-
-choices = ["剪刀", "石頭", "布"]
-
-'''判斷勝負的函數'''
-def determine_winner(player_choice, computer_choice):
-    if player_choice == computer_choice:
-        return "平手"
-    elif (player_choice == "剪刀" and computer_choice == "布") or \
-         (player_choice == "布" and computer_choice == "石頭") or \
-         (player_choice == "石頭" and computer_choice == "剪刀"):
-        return "玩家"
-    else:
-        return "電腦"
-'''遊戲主函數'''
-def game():
-    player_name = input("請輸入你的名字: ")
-    player = Player(player_name)
-    computer = Player("電腦")
-
-    print(f"歡迎來到剪刀石頭布對戰, {player.name}!")
-
-    while player.is_alive() and computer.is_alive():
-        print(f"\n{player.name} 的HP: {player.hp} | 電腦的HP: {computer.hp}")
-        
-        # 玩家選擇
-        player_choice = input("請選擇 (剪刀, 石頭, 布): ")
-        while player_choice not in choices:
-            print("無效的選擇，請重新選擇")
-            player_choice = input("請選擇 (剪刀, 石頭, 布): ")
-
-        # 電腦隨機選擇
-        computer_choice = random.choice(choices)
-        print(f"電腦選擇了: {computer_choice}")
-
-        # 判斷勝負
-        result = determine_winner(player_choice, computer_choice)
-
-        if result == "玩家":
-            print(f"{player.name} 勝利！")
-            computer.take_damage(20)
-        elif result == "電腦":
-            print("電腦勝利！")
-            player.take_damage(20)
+    def buy_property(self, place):
+        if self.money >= place.price:
+            self.money -= place.price
+            place.owner = self
+            self.properties.append(place)
+            print(f"{self.name} 購買了 {place.name}")
         else:
-            print("這局平手！")
+            print(f"{self.name} 資金不足，無法購買 {place.name}")
 
-    # 遊戲結束
-    if player.is_alive():
-        print(f"\n{player.name} 獲勝了！")
+    def pay_rent(self, owner, rent):
+        if self.money >= rent:
+            self.money -= rent
+            owner.money += rent
+            print(f"{self.name} 向 {owner.name} 支付了 {rent} 的租金")
+        else:
+            print(f"{self.name} 無法支付租金，破產！")
+            self.money = 0
+
+# 遊戲地圖
+def create_board():
+    return [
+        Place("起點", 0, 0),
+        Place("公園", 200, 50),
+        Place("商店街", 300, 80),
+        Place("學校", 250, 60),
+        Place("超市", 400, 100),
+        Place("醫院", 350, 90),
+        Place("圖書館", 150, 40),
+        Place("遊樂場", 500, 120)
+    ]
+
+# 擲骰子
+def roll_dice():
+    return random.randint(1, 6)
+
+# 遊戲主函數
+def game():
+    board = create_board()
+    board_size = len(board)
+
+    # 初始化兩名玩家
+    player1 = Player("玩家1")
+    player2 = Player("玩家2")
+    players = [player1, player2]
+    
+    turn = 0
+
+    while player1.money > 0 and player2.money > 0:
+        current_player = players[turn % 2]
+        print(f"\n{current_player.name} 的回合!")
+
+        # 擲骰子並移動
+        steps = roll_dice()
+        print(f"{current_player.name} 擲出了 {steps}")
+        current_player.move(steps, board_size)
+
+        current_place = board[current_player.position]
+        print(f"{current_player.name} 來到了 {current_place.name}")
+
+        # 如果該地點有主人
+        if current_place.owner is None:
+            if current_place.price > 0:
+                print(f"{current_place.name} 的價格是 {current_place.price}，租金是 {current_place.rent}")
+                buy_choice = input("你想購買這個地點嗎？(y/n): ").lower()
+                if buy_choice == 'y':
+                    current_player.buy_property(current_place)
+        else:
+            if current_place.owner != current_player:
+                print(f"{current_place.name} 已經被 {current_place.owner.name} 擁有，需支付租金 {current_place.rent}")
+                current_player.pay_rent(current_place.owner, current_place.rent)
+
+        # 顯示玩家狀態
+        print(f"{player1.name} 的餘額: {player1.money}，擁有資產: {[p.name for p in player1.properties]}")
+        print(f"{player2.name} 的餘額: {player2.money}，擁有資產: {[p.name for p in player2.properties]}")
+
+        # 回合結束
+        turn += 1
+
+    # 判斷勝負
+    if player1.money > 0:
+        print(f"{player1.name} 獲勝！")
     else:
-        print("\n電腦獲勝了！")
+        print(f"{player2.name} 獲勝！")
 
 # 開始遊戲
 game()
