@@ -302,110 +302,156 @@
 #for i in 'red', 'green', 'blue':
 #    print(i)
 
-import random
+'''RPG game'''
+#import random
+#
+## 定義地圖上的地點，每個地點可以購買或者交租金
+#class Place:
+#    def __init__(self, name, price, rent):
+#        self.name = name
+#        self.price = price
+#        self.rent = rent
+#        self.owner = None
+#
+## 定義玩家
+#class Player:
+#    def __init__(self, name):
+#        self.name = name
+#        self.money = 1500  # 初始金額
+#        self.position = 0  # 起始位置
+#        self.properties = []  # 擁有的房地產
+#
+#    def move(self, steps, board_size):
+#        self.position = (self.position + steps) % board_size
+#
+#    def buy_property(self, place):
+#        if self.money >= place.price:
+#            self.money -= place.price
+#            place.owner = self
+#            self.properties.append(place)
+#            print(f"{self.name} 購買了 {place.name}")
+#        else:
+#            print(f"{self.name} 資金不足，無法購買 {place.name}")
+#
+#    def pay_rent(self, owner, rent):
+#        if self.money >= rent:
+#            self.money -= rent
+#            owner.money += rent
+#            print(f"{self.name} 向 {owner.name} 支付了 {rent} 的租金")
+#        else:
+#            print(f"{self.name} 無法支付租金，破產！")
+#            self.money = 0
+#
+## 遊戲地圖
+#def create_board():
+#    return [
+#        Place("起點", 0, 0),
+#        Place("公園", 200, 50),
+#        Place("商店街", 300, 80),
+#        Place("學校", 250, 60),
+#        Place("超市", 400, 100),
+#        Place("醫院", 350, 90),
+#        Place("圖書館", 150, 40),
+#        Place("遊樂場", 500, 120)
+#    ]
+#
+## 擲骰子
+#def roll_dice():
+#    return random.randint(1, 6)
+#
+## 遊戲主函數
+#def game():
+#    board = create_board()
+#    board_size = len(board)
+#
+#    # 初始化兩名玩家
+#    player1 = Player("玩家1")
+#    player2 = Player("玩家2")
+#    players = [player1, player2]
+#    
+#    turn = 0
+#
+#    while player1.money > 0 and player2.money > 0:
+#        current_player = players[turn % 2]
+#        print(f"\n{current_player.name} 的回合!")
+#
+#        # 擲骰子並移動
+#        steps = roll_dice()
+#        print(f"{current_player.name} 擲出了 {steps}")
+#        current_player.move(steps, board_size)
+#
+#        current_place = board[current_player.position]
+#        print(f"{current_player.name} 來到了 {current_place.name}")
+#
+#        # 如果該地點有主人
+#        if current_place.owner is None:
+#            if current_place.price > 0:
+#                print(f"{current_place.name} 的價格是 {current_place.price}，租金是 {current_place.rent}")
+#                buy_choice = input("你想購買這個地點嗎？(y/n): ").lower()
+#                if buy_choice == 'y':
+#                    current_player.buy_property(current_place)
+#        else:
+#            if current_place.owner != current_player:
+#                print(f"{current_place.name} 已經被 {current_place.owner.name} 擁有，需支付租金 {current_place.rent}")
+#                current_player.pay_rent(current_place.owner, current_place.rent)
+#
+#        # 顯示玩家狀態
+#        print(f"{player1.name} 的餘額: {player1.money}，擁有資產: {[p.name for p in player1.properties]}")
+#        print(f"{player2.name} 的餘額: {player2.money}，擁有資產: {[p.name for p in player2.properties]}")
+#
+#        # 回合結束
+#        turn += 1
+#
+#    # 判斷勝負
+#    if player1.money > 0:
+#        print(f"{player1.name} 獲勝！")
+#    else:
+#        print(f"{player2.name} 獲勝！")
+#
+## 開始遊戲
+#game()
 
-# 定義地圖上的地點，每個地點可以購買或者交租金
-class Place:
-    def __init__(self, name, price, rent):
-        self.name = name
-        self.price = price
-        self.rent = rent
-        self.owner = None
+#a, b, c = map(int, input().split())
+#l = []
+#l = l + [a+b+c] #[]+[6] = [6]
+#l.append([a+b+c])
+#l.append(a+b+c)
+#print(l[0])
+#
+#d = [4, 5, 6]
+#
+#print("l + [d]的串列:", l + [d])
+#print("長度:", len(l + [d]))
+#
+#print("l + d的串列:", l + d)
+#print("長度:", len(l + d))
+#
+#l.append(d)
+#print("append:",l)
+#print("長度:", len(l))
+#
+#for i in d:
+#    l.append(i)
+#print("for 的串列:", l)
+#
 
-# 定義玩家
-class Player:
-    def __init__(self, name):
-        self.name = name
-        self.money = 1500  # 初始金額
-        self.position = 0  # 起始位置
-        self.properties = []  # 擁有的房地產
+#z, x, c, v, b = map(int(), input().split())
+#l = []
+#l.append(z+10)
+#l.append(x+10)
+#l.append(c+10)
+#l.append(v+10)
+#l.append(b+10)
 
-    def move(self, steps, board_size):
-        self.position = (self.position + steps) % board_size
+#la = []
+#for i in input().split():
+#    #la = la + [int(i)]
+#    #la = la + int(i)
+#    #la.append(int(i))
+#    la.append([int(i)])
+#print(la)
 
-    def buy_property(self, place):
-        if self.money >= place.price:
-            self.money -= place.price
-            place.owner = self
-            self.properties.append(place)
-            print(f"{self.name} 購買了 {place.name}")
-        else:
-            print(f"{self.name} 資金不足，無法購買 {place.name}")
-
-    def pay_rent(self, owner, rent):
-        if self.money >= rent:
-            self.money -= rent
-            owner.money += rent
-            print(f"{self.name} 向 {owner.name} 支付了 {rent} 的租金")
-        else:
-            print(f"{self.name} 無法支付租金，破產！")
-            self.money = 0
-
-# 遊戲地圖
-def create_board():
-    return [
-        Place("起點", 0, 0),
-        Place("公園", 200, 50),
-        Place("商店街", 300, 80),
-        Place("學校", 250, 60),
-        Place("超市", 400, 100),
-        Place("醫院", 350, 90),
-        Place("圖書館", 150, 40),
-        Place("遊樂場", 500, 120)
-    ]
-
-# 擲骰子
-def roll_dice():
-    return random.randint(1, 6)
-
-# 遊戲主函數
-def game():
-    board = create_board()
-    board_size = len(board)
-
-    # 初始化兩名玩家
-    player1 = Player("玩家1")
-    player2 = Player("玩家2")
-    players = [player1, player2]
-    
-    turn = 0
-
-    while player1.money > 0 and player2.money > 0:
-        current_player = players[turn % 2]
-        print(f"\n{current_player.name} 的回合!")
-
-        # 擲骰子並移動
-        steps = roll_dice()
-        print(f"{current_player.name} 擲出了 {steps}")
-        current_player.move(steps, board_size)
-
-        current_place = board[current_player.position]
-        print(f"{current_player.name} 來到了 {current_place.name}")
-
-        # 如果該地點有主人
-        if current_place.owner is None:
-            if current_place.price > 0:
-                print(f"{current_place.name} 的價格是 {current_place.price}，租金是 {current_place.rent}")
-                buy_choice = input("你想購買這個地點嗎？(y/n): ").lower()
-                if buy_choice == 'y':
-                    current_player.buy_property(current_place)
-        else:
-            if current_place.owner != current_player:
-                print(f"{current_place.name} 已經被 {current_place.owner.name} 擁有，需支付租金 {current_place.rent}")
-                current_player.pay_rent(current_place.owner, current_place.rent)
-
-        # 顯示玩家狀態
-        print(f"{player1.name} 的餘額: {player1.money}，擁有資產: {[p.name for p in player1.properties]}")
-        print(f"{player2.name} 的餘額: {player2.money}，擁有資產: {[p.name for p in player2.properties]}")
-
-        # 回合結束
-        turn += 1
-
-    # 判斷勝負
-    if player1.money > 0:
-        print(f"{player1.name} 獲勝！")
-    else:
-        print(f"{player2.name} 獲勝！")
-
-# 開始遊戲
-game()
+class1 = [10, 35, 71, 22, 5]
+class2 = [98, 40, 28, 81]
+#print(class1 + class2)
+print(class1 + [0] + class2)
