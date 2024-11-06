@@ -451,7 +451,7 @@
 #    la.append([int(i)])
 #print(la)
 
-class1 = [10, 35, 71, 22, 5]
-class2 = [98, 40, 28, 81]
-#print(class1 + class2)
-print(class1 + [0] + class2)
+#class1 = [10, 35, 71, 22, 5]
+#class2 = [98, 40, 28, 81]
+##print(class1 + class2)
+#print(class1 + [0] + class2)
