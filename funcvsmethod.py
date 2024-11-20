@@ -509,14 +509,41 @@
 #for i in range(len(data)):
 #    print(data[i][0]+":",  data[i][1])
 
-import turtle
+#import turtle
+#import random
+#
+#t = turtle.Turtle()
+#t.speed(1)
+#t.color("yellow")
+#
+#for j in range(3):
+#    t.pendown()
+#    t.shape("turtle")
+#    for i in range(5):
+#        t.forward(50)
+#        t.right(144)
+#    t.penup()
+#    #t.goto(random.randint(-100,100),random.randint(-100,100))
+#    t.goto(0,0)
+#
+#turtle.done()
 
-t = turtle.Turtle()
-t.speed(1)
-for i in range(4):
-    t.forward(70)
-    t.right(90)
-
-turtle.done()
-
-
+#import turtle
+#import colorsys
+#
+#
+#screen = turtle.Screen()
+#screen.bgcolor("black")
+#
+#spiral = turtle.Turtle()
+#spiral.speed(0)  # 設置最快速度
+#spiral.width(2)
+#
+## 繪製螺旋
+#for i in range(360):
+#    color = colorsys.hsv_to_rgb(i / 360, 1, 1)  # 彩虹色
+#    spiral.color(color)
+#    spiral.forward(i * 0.5)  # 每次前進的距離遞增
+#    spiral.right(59)  # 改變角度使其形成螺旋圖案
+#
+#turtle.done()
