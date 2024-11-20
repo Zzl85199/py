@@ -1,15 +1,17 @@
 import random
 
 # 遊戲初始化
-number_to_guess = random.randint(1, 100)
+number_to_guess = random.randint(0, 1000)
 attempts = 0
 guesses = []
+low=0
+high=1000
 
 print("歡迎來到猜數字遊戲！")
-print("我已經選擇了一個 1 到 100 之間的數字。來猜猜看是什麼數字吧！")
+print("我已經選擇了一個 0 到 1000 之間的數字。來猜猜看是什麼數字吧！")
 
 # 開始遊戲
-while True:
+while attempts<10:
     try:
         guess = int(input("請輸入你猜的數字： "))
         attempts += 1
@@ -17,9 +19,11 @@ while True:
 
         # 判斷玩家的猜測
         if guess < number_to_guess:
-            print("太小了，再試一次！")
+            low = guess
+            print(f"太小了，再試一次！(範圍{low}到{high})")
         elif guess > number_to_guess:
-            print("太大了，再試一次！")
+            high = guess
+            print(f"太大了，再試一次！(範圍{low}到{high})")
         else:
             print(f"恭喜你！你在第 {attempts} 次猜對了數字 {number_to_guess}！")
             break  # 猜對了，結束遊戲

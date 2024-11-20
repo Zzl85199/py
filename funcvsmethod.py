@@ -455,3 +455,68 @@
 #class2 = [98, 40, 28, 81]
 ##print(class1 + class2)
 #print(class1 + [0] + class2)
+
+#num = [10,20,30,40,50,60,70,80,90]
+#n=input("輸入")
+#num.pop(num.index(int(n)))
+#print(num)
+
+#for n in num :  
+#    num.append(1)
+#    num.pop(-1)
+#    print(num)
+
+#a = [int(e) for e in input().split()]
+#b=a
+#for i in range(1, len(b)):
+#    b[i] += b[i-1]
+#print(a)
+#print(b)
+
+#a = [1,2,3]
+#b = [1,2,3]
+#print(a is b)
+#b=a[:]
+#print(b is a)
+
+#data = [0]*3
+#for i in range(len(data)):
+#    data[i] = [1]*5
+#print(data)
+#
+#data = []
+#for i in range(3):
+#    data.append([0]*5)
+#print(data)
+#
+#data = [[0]*5 for i in range(3)]
+#print(data)
+
+#data=[]
+#while True:
+#    get = input().split()
+#    if get[0] == '0':
+#        break
+#    for d in get:
+#        exist = False
+#        for i in range(len(data)):
+#            if d == data[i][0]:
+#                data[i][1] += 1
+#                exist = True
+#                break
+#        if not exist:
+#            data.append([d, 1])
+#for i in range(len(data)):
+#    print(data[i][0]+":",  data[i][1])
+
+import turtle
+
+t = turtle.Turtle()
+t.speed(1)
+for i in range(4):
+    t.forward(70)
+    t.right(90)
+
+turtle.done()
+
+
