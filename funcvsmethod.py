@@ -643,7 +643,8 @@ def isInRect(p,rect):
     else: return True
 
 # 定義座標位置
-POLYGON = ((146, 0), (291, 106), (236, 277), (56, 277), (0, 106))
+POLYGON1 = ((123, 5), (146, 0), (291, 106), (236, 277), (56, 277), (0, 106))
+POLYGON2 = ((350, 80), (400, 80), (350, 100), (400, 100))
 RECT = (200, 150, 100, 50)
 
 # 一開始設定為 True 代表每個都會顯示
@@ -652,15 +653,15 @@ DISPLAY = [True,True,True,True,True,True,True]
 def draw():
     DISPLAYSURF.fill(WHITE)
 
-    if (DISPLAY[0]) : pygame.draw.polygon(DISPLAYSURF, GREEN, POLYGON)
+    if (DISPLAY[0]) : pygame.draw.polygon(DISPLAYSURF, GREEN, POLYGON1)
     
-    if (DISPLAY[1]) : pygame.draw.line(DISPLAYSURF, BLUE, (60, 60), (120, 60), 4)
+    if (DISPLAY[1]) : pygame.draw.circle(DISPLAYSURF, RED, (375, 65), 80, 0)
     
-    if (DISPLAY[2]) : pygame.draw.line(DISPLAYSURF, BLUE, (120, 60), (60, 120))
+    if (DISPLAY[2]) : pygame.draw.polygon(DISPLAYSURF, BLUE, POLYGON2)
     
-    if (DISPLAY[3]) : pygame.draw.line(DISPLAYSURF, BLUE, (60, 120), (120, 120), 4)
+    if (DISPLAY[3]) : pygame.draw.circle(DISPLAYSURF, BLACK, (400, 50), 20, 0)
     
-    if (DISPLAY[4]) : pygame.draw.circle(DISPLAYSURF, BLUE, (300, 50), 20, 0)
+    if (DISPLAY[4]) : pygame.draw.circle(DISPLAYSURF, BLACK, (350, 50), 20, 0)
     
     if (DISPLAY[5]) : pygame.draw.ellipse(DISPLAYSURF, RED, (300, 250, 40, 80), 1)
     
