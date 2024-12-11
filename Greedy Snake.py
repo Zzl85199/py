@@ -57,7 +57,7 @@ score2P = 0
 playFial = 0
 
 # 每秒執行主迴圈次數.
-fps = 8
+fps = 20
 
 # 重新開始時間.
 restartTime = 0
@@ -85,7 +85,7 @@ def showFont( text, x, y, color):
 #-------------------------------------------------------------------------
 def ifBoundary1P(direction):
     global gameAreaArray, game1P_x, game1P_y, playFial, score2P
-    
+
     # 判斷邊界.
     if(game1P_x > game_area_width-2):
         game1P_x = game_area_width-1
@@ -97,28 +97,33 @@ def ifBoundary1P(direction):
         game1P_y = 0
 
     # 設定失敗.
-    if(gameAreaArray[game1P_x][game1P_y] != 0):
-        playFial = 1
-        gameAreaArray[game1P_x][game1P_y] = 2
-        # 加對方分數.
-        score2P += 1
+    if gameAreaArray[game1P_x][game1P_y] != 0:
+        # 玩家撞到障礙物或其他區域.
+        if gameAreaArray[game1P_x][game1P_y] == 4:  # 障礙物
+            playFial = 1
+            score2P += 1  # 2P得分
+        else:
+            playFial = 1
+            gameAreaArray[game1P_x][game1P_y] = 2
+            score2P += 1  # 2P得分
     else:
-        # 箭頭.            
-        if(direction==0):
+        # 箭頭顯示方向.
+        if(direction == 0):
             gameAreaArray[game1P_x][game1P_y] = 10
-        elif(direction==1):
-            gameAreaArray[game1P_x][game1P_y] = 11                
-        elif(direction==2):
+        elif(direction == 1):
+            gameAreaArray[game1P_x][game1P_y] = 11
+        elif(direction == 2):
             gameAreaArray[game1P_x][game1P_y] = 12
-        elif(direction==3):
-            gameAreaArray[game1P_x][game1P_y] = 13            
+        elif(direction == 3):
+            gameAreaArray[game1P_x][game1P_y] = 13
+     
 
 #-------------------------------------------------------------------------
 # 函數:判斷邊界-2P.
 #-------------------------------------------------------------------------
 def ifBoundary2P(direction):
     global gameAreaArray, game2P_x, game2P_y, playFial, score1P
-    
+
     # 判斷邊界.
     if(game2P_x > game_area_width-2):
         game2P_x = game_area_width-1
@@ -130,20 +135,24 @@ def ifBoundary2P(direction):
         game2P_y = 0
 
     # 設定失敗.
-    if(gameAreaArray[game2P_x][game2P_y] != 0):
-        playFial = 2
-        gameAreaArray[game2P_x][game2P_y] = 2
-        # 加對方分數.
-        score1P += 1
+    if gameAreaArray[game2P_x][game2P_y] != 0:
+        # 玩家撞到障礙物或其他區域.
+        if gameAreaArray[game2P_x][game2P_y] == 4:  # 障礙物
+            playFial = 2
+            score1P += 1  # 1P得分
+        else:
+            playFial = 2
+            gameAreaArray[game2P_x][game2P_y] = 2
+            score1P += 1  # 1P得分
     else:
-        # 箭頭.            
-        if(direction==0):
+        # 箭頭顯示方向.
+        if(direction == 0):
             gameAreaArray[game2P_x][game2P_y] = 20
-        elif(direction==1):
-            gameAreaArray[game2P_x][game2P_y] = 21                
-        elif(direction==2):
+        elif(direction == 1):
+            gameAreaArray[game2P_x][game2P_y] = 21
+        elif(direction == 2):
             gameAreaArray[game2P_x][game2P_y] = 22
-        elif(direction==3):
+        elif(direction == 3):
             gameAreaArray[game2P_x][game2P_y] = 23
 
 #-------------------------------------------------------------------------
@@ -172,6 +181,19 @@ def restart():
 
     # 玩家失敗.
     playFial = 0
+
+    # 隨機放置障礙物.
+    obstacle_count = 10  # 障礙物的數量
+    for _ in range(obstacle_count):
+        while True:
+            rand_x = random.randint(1, game_area_width - 2)
+            rand_y = random.randint(1, game_area_height - 2)
+            # 確保障礙物不會出現在玩家的初始位置.
+            if ((rand_x != game1P_x or rand_y != game1P_y) and 
+                (rand_x != game2P_x or rand_y != game2P_y) and 
+                gameAreaArray[rand_x][rand_y] == 0):
+                gameAreaArray[rand_x][rand_y] = 4  # 設置障礙物
+                break
 
 #-------------------------------------------------------------------------
 # 主程式.
@@ -240,19 +262,19 @@ if __name__=='__main__':
                 elif gameMode == 1:
                     #-----------------------------------------------------------------
                     # 1P-上.
-                    if event.key == pygame.K_w:
+                    if event.key == pygame.K_r:
                         game1P_direction = 0
                     #-----------------------------------------------------------------
                     # 1P-下.
-                    elif event.key == pygame.K_s:
+                    elif event.key == pygame.K_f:
                         game1P_direction = 1
                     #-----------------------------------------------------------------
                     # 1P-左.
-                    elif event.key == pygame.K_a:
+                    elif event.key == pygame.K_d:
                         game1P_direction = 2
                     #-----------------------------------------------------------------
                     # 1P-右.
-                    elif event.key == pygame.K_d:
+                    elif event.key == pygame.K_g:
                         game1P_direction = 3
 
                     #-----------------------------------------------------------------
@@ -398,52 +420,46 @@ if __name__=='__main__':
         for y in range(game_area_height):
             for x in range(game_area_width): 
                 # 方塊.
-                if(gameAreaArray[x][y]==1):
-                    showFont( u"▨", ix, iy, green)
+                if(gameAreaArray[x][y] == 1):
+                    showFont(u"▨", ix, iy, green)
                 # 死亡.
-                elif(gameAreaArray[x][y]==2):                
-                    showFont( u"▦", ix, iy, green)
+                elif(gameAreaArray[x][y] == 2):                
+                    showFont(u"▦", ix, iy, green)
                 # 空白.
-                elif(gameAreaArray[x][y]==3):
-                    showFont( u"⠀", ix, iy, green)
-                elif(gameAreaArray[x][y]==6):
-                    showFont( u"6", ix, iy, green)
+                elif(gameAreaArray[x][y] == 3):
+                    showFont(u"⠀", ix, iy, green)
+                # 障礙物.
+                elif(gameAreaArray[x][y] == 4):
+                    showFont(u"■", ix, iy, (255, 0, 0))  # 紅色顯示障礙物
                 # 1p-上箭頭.
-                elif(gameAreaArray[x][y]==10):
-                    showFont( u"▴", ix, iy, green)
+                elif(gameAreaArray[x][y] == 10):
+                    showFont(u"▴", ix, iy, green)
                 # 1p-下箭頭.
-                elif(gameAreaArray[x][y]==11):
-                    showFont( u"▾", ix, iy, green)
+                elif(gameAreaArray[x][y] == 11):
+                    showFont(u"▾", ix, iy, green)
                 # 1p-左箭頭.
-                elif(gameAreaArray[x][y]==12):
-                    showFont( u"◂", ix, iy, green)
+                elif(gameAreaArray[x][y] == 12):
+                    showFont(u"◂", ix, iy, green)
                 # 1p-右箭頭.
-                elif(gameAreaArray[x][y]==13):
-                    showFont( u"▸", ix, iy, green)
+                elif(gameAreaArray[x][y] == 13):
+                    showFont(u"▸", ix, iy, green)
                 # 2p-上箭頭.
-                elif(gameAreaArray[x][y]==20):
-                    showFont( u"▵", ix, iy, green)
+                elif(gameAreaArray[x][y] == 20):
+                    showFont(u"▵", ix, iy, green)
                 # 2p-下箭頭.
-                elif(gameAreaArray[x][y]==21):
-                    showFont( u"▿", ix, iy, green)
+                elif(gameAreaArray[x][y] == 21):
+                    showFont(u"▿", ix, iy, green)
                 # 2p-左箭頭.
-                elif(gameAreaArray[x][y]==22):
-                    showFont( u"◃", ix, iy, green)
+                elif(gameAreaArray[x][y] == 22):
+                    showFont(u"◃", ix, iy, green)
                 # 2p-右箭頭.
-                elif(gameAreaArray[x][y]==23):
-                    showFont( u"▹", ix, iy, green)
+                elif(gameAreaArray[x][y] == 23):
+                    showFont(u"▹", ix, iy, green)
 
-                # 除錯.
-                if(debug_message):
-                    if(gameAreaArray[x][y]!=0):
-                        # 顯示陣列編碼.
-                        showFont( str(gameAreaArray[x][y]), ix, iy, (255, 0, 0))
-                        # 顯示FPS.
-                        showFont( u"FPS:" + str(int(clock.get_fps())), 8, 2, (255, 255, 255))
-
-                ix+=12
+                ix += 12
             ix = 15
-            iy+=12
+            iy += 12
+
 
         # 更新畫面.
         pygame.display.update()
