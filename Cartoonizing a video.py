@@ -1,11 +1,7 @@
+#pip uninstall opencv-python
 #pip install opencv-python
 #pip install opencv-python-headless
 #pip install opencv-contrib-python
-""""""
-#pip uninstall opencv-python
-#pip install opencv-python
-
-
 
 """Accessing the Webcam"""
 #import cv2
@@ -342,143 +338,145 @@
 
 
 """Exercise"""
-#import cv2
-#import numpy as np
-#
-#def print_howto():
-#    print("""
-#    Change cartoonizing mode of image:
-#    1. Cartoonize without Color - press 's'
-#    2. Cartoonize with Color - press 'c'
-#    """)
-#    
-#"""***************************************************************************
-#Function: cartoonize_image
-#Description: Create cartoon effect => objects blurred w/wo sketched outlines
-#  (1) To determine the sketches outlines, the image is gray-scaled and the
-#      objects' contours are high-lighted by using the Laplacian operator. An
-#      inverse thresholding is then performed to label the contours as "black"
-#      and the background as "white." 
-#  (2) The thresholded output is the outline-only cartoon image.
-#  (3) To create a blurred image with outlines, the previously thresholded 
-#      output serves as a mask.
-#  (4) The original image is blurred by cv2.bilateralFilter() many times. The 
-#      image is scaled down to gain filtering performance. The filtered output
-#      is then scaled up back to its original size.
-#  (5) The filtered image overlayed with the sketched outlines creates the 
-#      blurred image with outlines. 
-#      
-#***************************************************************************"""
-#def cartoonize_image(img, ksize=5, sketch_mode=False):
-#    
-#    # ksize: kernel size for Laplacian filtering and bilateral filtering
-#    # sketch_mode: True for outline, False for additional objects themselves
-#    
-#    # Constants used for bilateral filtering cv2.bilateralFilter()
-#    # nRepetition: number of repititions to blur the image
-#    # sigmaR: sigma in range (color difference)
-#    # sigmaS: sigma in space (coordinate distance)
-#    nRepetition = 10
-#    sigmaR,sigmaS = 7,11
-#    
-#    # Create the sketch
-#    # (1) Conver the image to gray-scaled
-#    # (2) Apply Laplacian of Gaussian/median blur to high-light the contour
-#    # (3) Apply (inverse-)thresholding to create a mask
-#    
-#    # Blur kernel (nKernel) and Gaussian kernel (gKernel)
-#    nKernel = 7
-#    gKernel = (nKernel,nKernel)
-#    sigmaX = 0
-#    
-#    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
-#    edges = cv2.Laplacian(cv2.GaussianBlur(img_gray,gKernel,sigmaX),cv2.CV_8U,ksize=ksize)
-#    #edges = cv2.Laplacian(cv2.medianBlur(img_gray, nKernel), cv2.CV_8U, ksize=ksize)
-#    __, mask = cv2.threshold(edges, 100, 255, cv2.THRESH_BINARY_INV)
-#    
-#    # Thicken the contour lines by using cv2.erode()
-#    # Currently, the contour is represented by low-intensity (black) pixels. Eroding white 
-#    # pixels is de facto thickening the black lines.
-#    morphology_kernel = np.ones((3,3), np.uint8)
-#    mask = cv2.erode(mask, morphology_kernel, iterations=1)
-#      
-#    # 'mask' is the sketch of the image
-#    if sketch_mode:
-#        return cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
-#    
-#    # To create the blurred image
-#    # (1) Down scale the image
-#    # (2) Apply bilateral filtering for several times
-#    # (3) Restore the image to its original size
-#    
-#    # Down-scaling the image to expedite the filtering process
-#    nScaling = 1 # 0.25
-#    
-#    img_small = cv2.resize(img,None,fx=nScaling,fy=nScaling,interpolation=cv2.INTER_AREA)
-#    for i in range(nRepetition):
-#        img_small = cv2.bilateralFilter(img_small, ksize, sigmaR, sigmaS)
-#    img_output = cv2.resize(img_small, None, fx=1.0/nScaling, fy=1.0/nScaling,
-#                            interpolation=cv2.INTER_LINEAR)
-#    
-#    # Add the thick boundary lines to the image using 'AND' operator
-#    # Actually, the thick boundary lines were masked out!!
-#    #dst = img_output
-#    dst = cv2.bitwise_and(img_output, img_output, mask=mask)
-#    
-#    return dst
-#
-#
-#if __name__=='__main__':
-#    
-#    print_howto()
-#    
-#    cap = cv2.VideoCapture('20241204testingvideo.wmv')
-#    if (not cap.isOpened()):
-#        print("Error opening video stream or file")
-#        #cap.release()
-#        #return
-#    
-#    # Default resolutions of the frame are obtained.The default resolutions 
-#    # are system dependent.We convert the resolutions from float to integer.
-#    frame_width = int(cap.get(3))
-#    frame_height = int(cap.get(4))
-#    
-#    # Define the codec and create VideoWriter object.
-#    cap_out = cv2.VideoWriter('20241204testingvideo_cartoon.avi',
-#                              cv2.VideoWriter_fourcc('M','J','P','G'), 
-#                              30,    # frame rate fps 
-#                              (frame_width,frame_height))
-#    
-#    cur_mode = None
-# 
-#    while cap.isOpened():
-#               
-#        success, frame = cap.read()
-#        
-#        if not success:
-#            break
-#            
-#        #frame = cv2.resize(frame, None, fx=1.0, fy=1.0, interpolation=cv2.INTER_AREA)
-#        
-#        c = cv2.waitKey(5)
-#        if c == 27:
-#            break
-#        
-#        cur_mode = c if (c != -1 and c != 255 and c != cur_mode) else cur_mode
-#
-#        if cur_mode == ord('s'):
-#            frame_cartoon = cartoonize_image(frame,ksize=5,sketch_mode=True)
-#            cv2.imshow('Cartoonize',frame_cartoon)
-#        elif cur_mode == ord('c'):
-#            frame_cartoon = cartoonize_image(frame,ksize=5,sketch_mode=False)
-#            cv2.imshow('Cartoonize',frame_cartoon)
-#        else:
-#            frame_cartoon = frame
-#            cv2.imshow('Cartoonize', frame)
-#            
-#        cap_out.write(frame_cartoon)
-#            
-#    cap.release()
-#    cap_out.release()
-#    cv2.destroyAllWindows()
-#    cv2.waitKey(1)
+import cv2
+import numpy as np
+
+def print_howto():
+    print("""
+    Change cartoonizing mode of image:
+    1. Cartoonize without Color - press 's'
+    2. Cartoonize with Color - press 'c'
+    """)
+    
+"""***************************************************************************
+Function: cartoonize_image
+Description: Create cartoon effect => objects blurred w/wo sketched outlines
+  (1) To determine the sketches outlines, the image is gray-scaled and the
+      objects' contours are high-lighted by using the Laplacian operator. An
+      inverse thresholding is then performed to label the contours as "black"
+      and the background as "white." 
+  (2) The thresholded output is the outline-only cartoon image.
+  (3) To create a blurred image with outlines, the previously thresholded 
+      output serves as a mask.
+  (4) The original image is blurred by cv2.bilateralFilter() many times. The 
+      image is scaled down to gain filtering performance. The filtered output
+      is then scaled up back to its original size.
+  (5) The filtered image overlayed with the sketched outlines creates the 
+      blurred image with outlines. 
+      
+***************************************************************************"""
+def cartoonize_image(img, ksize=5, sketch_mode=False):
+    
+    # ksize: kernel size for Laplacian filtering and bilateral filtering
+    # sketch_mode: True for outline, False for additional objects themselves
+    
+    # Constants used for bilateral filtering cv2.bilateralFilter()
+    # nRepetition: number of repititions to blur the image
+    # sigmaR: sigma in range (color difference)
+    # sigmaS: sigma in space (coordinate distance)
+    nRepetition = 10
+    sigmaR,sigmaS = 7,11
+    
+    # Create the sketch
+    # (1) Conver the image to gray-scaled
+    # (2) Apply Laplacian of Gaussian/median blur to high-light the contour
+    # (3) Apply (inverse-)thresholding to create a mask
+    
+    # Blur kernel (nKernel) and Gaussian kernel (gKernel)
+    nKernel = 7
+    gKernel = (nKernel,nKernel)
+    sigmaX = 0
+    
+    img_gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    edges = cv2.Laplacian(cv2.GaussianBlur(img_gray,gKernel,sigmaX),cv2.CV_8U,ksize=ksize)
+    #edges = cv2.Laplacian(cv2.medianBlur(img_gray, nKernel), cv2.CV_8U, ksize=ksize)
+    __, mask = cv2.threshold(edges, 100, 255, cv2.THRESH_BINARY_INV)
+    
+    # Thicken the contour lines by using cv2.erode()
+    # Currently, the contour is represented by low-intensity (black) pixels. Eroding white 
+    # pixels is de facto thickening the black lines.
+    morphology_kernel = np.ones((3,3), np.uint8)
+    mask = cv2.erode(mask, morphology_kernel, iterations=1)
+      
+    # 'mask' is the sketch of the image
+    if sketch_mode:
+        return cv2.cvtColor(mask, cv2.COLOR_GRAY2BGR)
+    
+    # To create the blurred image
+    # (1) Down scale the image
+    # (2) Apply bilateral filtering for several times
+    # (3) Restore the image to its original size
+    
+    # Down-scaling the image to expedite the filtering process
+    nScaling = 1 # 0.25
+    
+    img_small = cv2.resize(img,None,fx=nScaling,fy=nScaling,interpolation=cv2.INTER_AREA)
+    for i in range(nRepetition):
+        img_small = cv2.bilateralFilter(img_small, ksize, sigmaR, sigmaS)
+    img_output = cv2.resize(img_small, None, fx=1.0/nScaling, fy=1.0/nScaling,
+                            interpolation=cv2.INTER_LINEAR)
+    
+    # Add the thick boundary lines to the image using 'AND' operator
+    # Actually, the thick boundary lines were masked out!!
+    #dst = img_output
+    dst = cv2.bitwise_and(img_output, img_output, mask=mask)
+    
+    return dst
+
+
+if __name__=='__main__':
+    
+    print_howto()
+    
+    cap = cv2.VideoCapture('20241204testingvideo.wmv')
+    if (not cap.isOpened()):
+        print("Error opening video stream or file")
+        #cap.release()
+        #return
+    
+    # Default resolutions of the frame are obtained.The default resolutions 
+    # are system dependent.We convert the resolutions from float to integer.
+    frame_width = int(cap.get(3))
+    frame_height = int(cap.get(4))
+    
+    # Define the codec and create VideoWriter object.
+    cap_out = cv2.VideoWriter('20241204testingvideo_cartoon.avi',
+                              cv2.VideoWriter_fourcc('M','J','P','G'), 
+                              30,    # frame rate fps 
+                              (frame_width,frame_height))
+    
+    cur_mode = None
+ 
+    while cap.isOpened():
+               
+        success, frame = cap.read()
+        
+        if not success:
+            break
+            
+        #frame = cv2.resize(frame, None, fx=1.0, fy=1.0, interpolation=cv2.INTER_AREA)
+        
+        c = cv2.waitKey(5)
+        if c == 27:
+            break
+        
+        cur_mode = c if (c != -1 and c != 255 and c != cur_mode) else cur_mode
+
+        if cur_mode == ord('s'):
+            frame_cartoon = cartoonize_image(frame,ksize=5,sketch_mode=True)
+            cv2.imshow('Cartoonize',frame_cartoon)
+        elif cur_mode == ord('c'):
+            frame_cartoon = cartoonize_image(frame,ksize=5,sketch_mode=False)
+            cv2.imshow('Cartoonize',frame_cartoon)
+        else:
+            frame_cartoon = frame
+            cv2.imshow('Cartoonize', frame)
+            
+        cap_out.write(frame_cartoon)
+            
+    cap.release()
+    cap_out.release()
+    cv2.destroyAllWindows()
+    cv2.waitKey(1)
+
+ #錄影連結:https://changgunguniversity-my.sharepoint.com/:v:/g/personal/m1344009_cgu_edu_tw/Ef_V1sAfUWRImIA8HX1ya8kB9qn9SrSazvggAiVu_PrwBg?nav=eyJyZWZlcnJhbEluZm8iOnsicmVmZXJyYWxBcHAiOiJTdHJlYW1XZWJBcHAiLCJyZWZlcnJhbFZpZXciOiJTaGFyZURpYWxvZy1MaW5rIiwicmVmZXJyYWxBcHBQbGF0Zm9ybSI6IldlYiIsInJlZmVycmFsTW9kZSI6InZpZXcifX0%3D&e=zdrPo0
