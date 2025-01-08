@@ -5,7 +5,7 @@
 #result = add(3, 4)
 #print(result)  
 
-'''Method講解'''
+#'''Method講解'''
 #class Person:
 #    def __init__(self, name):
 #        self.name = name  # self.name 指的是物件自己的 name 屬性
@@ -13,17 +13,12 @@
 #    def greet(self):
 #        return f"Hello, my name is {self.name}"  # self.name 取當前物件的 name 屬性
 #
-# 創建物件實例
+# #創建物件實例
 #person1 = Person("Alice")
 #person2 = Person("Bob")
-#
-# 調用greet方法
-#print(person1.greet())  
+# #調用greet方法
+#print(type(person1))  
 #print(person2.greet())  
-
-
-
-
 
 '''用來講解參數傳遞的錯誤程式碼'''
 #class Person:
@@ -56,8 +51,8 @@
 #print(Toyota.show()) #1
 ##Tesla.show()  #2
 ##Toyota.show() #2
-
-'''Function實作Car範例'''
+#
+#'''Function實作Car範例'''
 #def create_car(name, speed): # 定義一個函數來創建車輛（模擬類別的初始化）
 #    return {'name': name, 'speed': speed} # 返回一個包含車輛信息的字典
 #def describe_car(car): # 定義一個函數來描述車輛
@@ -68,7 +63,6 @@
 #another_car = create_car("Toyota", 180)
 #print(describe_car(my_car))       # 輸出：Tesla can go up to 250 km/h
 #print(describe_car(another_car))  # 輸出：Toyota can go up to 180 km/h
-
 #'''list vs dict vs tuple'''
 #my_car_list = ['Tesla', 250]
 #print(my_car_list)
@@ -696,4 +690,22 @@
 #    draw()     
 #    pygame.display.update()
 
+#def find_max_original_value():
+#    user_input = input()
+#    values = list(map(float, user_input.split()))
+#    divided_values = [(value / 10, value) for value in values]
+#    max_divided, max_original = max(divided_values, key=lambda x: x[0])
+#    
+#    return max_original
+#
+#result = find_max_original_value()
+#print("最大的值的原始值是:", result)
+
+#def key(p):
+#    return p[1]-p[0]
+#
+#l = [[3,1],[9,0],[-1,9],[65,0]]
+#l=sorted(l,key=lambda x:max(x))
+#print(l[0])
+##print(max(l,key=key))
 
