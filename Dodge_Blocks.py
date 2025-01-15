@@ -17,6 +17,7 @@ BLUE = (0, 0, 255)
 
 # Set up the screen
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+
 pygame.display.set_caption("Dodge the Blocks")
 
 # Clock for controlling the frame rate
@@ -98,10 +99,10 @@ def main():
             running = False
 
         # Draw player
-        pygame.draw.rect(screen, BLUE, (player_x, player_y, player_size, player_size))
-        #player_image = pygame.image.load("images.jpg")
-        #player_image = pygame.transform.scale(player_image, (player_size, player_size))
-        #screen.blit(player_image, (player_x, player_y))
+        #pygame.draw.rect(screen, BLUE, (player_x, player_y, player_size, player_size))
+        player_image = pygame.image.load("images.jpg")
+        player_image = pygame.transform.scale(player_image, (player_size, player_size))
+        screen.blit(player_image, (player_x, player_y))
 
         # Draw obstacles
         draw_obstacles(obstacle_list)

@@ -5,7 +5,7 @@
 #result = add(3, 4)
 #print(result)  
 
-#'''Method講解'''
+'''Method講解'''
 #class Person:
 #    def __init__(self, name):
 #        self.name = name  # self.name 指的是物件自己的 name 屬性
@@ -13,10 +13,10 @@
 #    def greet(self):
 #        return f"Hello, my name is {self.name}"  # self.name 取當前物件的 name 屬性
 #
-# #創建物件實例
+#"""創建物件實例"""
 #person1 = Person("Alice")
 #person2 = Person("Bob")
-# #調用greet方法
+#'''調用greet方法'''
 #print(type(person1))  
 #print(person2.greet())  
 
@@ -27,7 +27,7 @@
 #
 #    def greet(obj):  #()內一定要加入一個參數，因為下面物件呼叫greet()時會自動傳遞1個參數，即物件本身（person）。
 #        return f"Hello, my name is {obj}"  # 如果在is後面加入{name}變數，其中{name}不屬於物件，所以call不到
-# 創建物件
+##創建物件
 #person = Person()
 #print(person.greet())
 
@@ -709,3 +709,108 @@
 #print(l[0])
 ##print(max(l,key=key))
 
+#class song:
+#    def __init__(self,a):
+#        self.__name=a
+#    def set(self,b):
+#        self.__name=b
+#    def get(self):
+#        print(self.__name)
+#
+#s=song('a')
+#s.__name='b'
+#s.set('c')
+#s.get()
+#print(song.mro())
+
+#"""繼承1"""
+#class weapon:
+#    def attack(self):
+#        print("武器攻擊")
+#
+#class sword(weapon):
+#    pass
+#
+#w = weapon()
+#s = sword()
+#w.attack()
+#s.attack()
+#print(weapon.mro())
+#
+#"""繼承2 override"""
+#class weapon:
+#    def attack(self):
+#        print("武器攻擊")
+#
+#class sword(weapon):
+#    def attack(self):
+#        print("劍攻擊")
+#
+#w = weapon()
+#s = sword()
+#w.attack()
+#s.attack()
+
+"""繼承3 overload"""
+#class weapon:
+#    def attack(self):
+#        print("武器攻擊")
+#    def attack(self, punch):
+#        print("我開扁")
+#    def attack(self, punch, kick):
+#        print("又踢又扁")
+#
+#class sword(weapon):
+#    def attack(self):
+#        print("劍攻擊")
+#
+#w = weapon()
+#s = sword()
+#w.attack()
+#s.attack()
+
+"""繼承4 super()"""
+#class weapon:
+#    punch = "阿拳"
+#    kick = "阿腳"
+#    def attack(self):
+#        print("武器攻擊")
+#
+#    def attack(self, punch, kick):
+#        punch = punch
+#        kick = kick
+#        print(f"{kick}踢{punch}扁")
+#
+#class sword(weapon):
+#    def attack(self):
+#        print("劍攻擊")
+#    def attack(self, punch, kick):
+#        punch = punch
+#        kick = super().kick
+#        print(f"{kick}踢{punch}扁")
+#
+#w = weapon()
+#s = sword()
+#w.attack("大饅頭","大腳交")
+#s.attack("拳頭","腳")
+
+class pokemon():
+    def __init__(self, name, skill):
+        self.name = name
+        self.skill = skill
+    def attack(self):
+        print(f"去吧{self.name}使用{self.skill}")
+class pikkachu(pokemon):
+    def __init__(self, name, skill, value):
+        super().__init__(name, skill)
+        self.value = value
+    def attack(self):
+        print(f"去吧{self.name}使用{self.skill}攻擊力{self.value}")
+
+pikachu = pikkachu("皮卡丘", "十萬伏特", 100)
+pikachu.attack()
+
+pikachu1 = pokemon("皮卡丘", "十萬伏特")
+pikachu1.attack()
+
+print(pikachu1.__class__)
