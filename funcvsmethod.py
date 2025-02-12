@@ -794,23 +794,77 @@
 #w.attack("大饅頭","大腳交")
 #s.attack("拳頭","腳")
 
-class pokemon():
-    def __init__(self, name, skill):
-        self.name = name
-        self.skill = skill
-    def attack(self):
-        print(f"去吧{self.name}使用{self.skill}")
-class pikkachu(pokemon):
-    def __init__(self, name, skill, value):
-        super().__init__(name, skill)
-        self.value = value
-    def attack(self):
-        print(f"去吧{self.name}使用{self.skill}攻擊力{self.value}")
+#class pokemon():
+#    def __init__(self, name, skill):
+#        self.name = name
+#        self.skill = skill
+#    def attack(self):
+#        print(f"去吧{self.name}使用{self.skill}")
+#class pikkachu(pokemon):
+#    def __init__(self, name, skill, value):
+#        super().__init__(name, skill)
+#        self.value = value
+#    def attack(self):
+#        print(f"去吧{self.name}使用{self.skill}攻擊力{self.value}")
+#
+#pikachu = pikkachu("皮卡丘", "十萬伏特", 100)
+#pikachu.attack()
+#
+#pikachu1 = pokemon("皮卡丘", "十萬伏特")
+#pikachu1.attack()
+#
+#print(pikachu1.__class__)
 
-pikachu = pikkachu("皮卡丘", "十萬伏特", 100)
-pikachu.attack()
+def AddAll(data):
+    for i in range(1,len(data)):
+        data[i]+=data[i-1]
+    return data[i]
+    
+data = [1,2,3,4,5]
+print(AddAll(data))
+print(data)
 
-pikachu1 = pokemon("皮卡丘", "十萬伏特")
-pikachu1.attack()
+#B = (1,)
+#print(B)
+#D = tuple('split')
+#print(D)
+#print(D[0])
+#c = B+D
+#print(c)
 
-print(pikachu1.__class__)
+#score = tuple(int(e) for e in input().split())
+#interval = [0]*5
+#for s in score:
+#    if s >= 90:
+#        interval[0] += 1
+#    elif s >= 80:
+#        interval[1] += 1
+#    elif s >= 70:
+#        interval[2] += 1
+#    elif s >= 60:
+#        interval[3] += 1
+#    else:
+#        interval[4] += 1
+#name = ("100-90:", "89-80:", "79-70:","69-60:","59以下:")
+#for i in range(5):
+#    print(name[i], '*'*interval[i])
+#    print("平均:",sum(score)/len(score))
+#    print("最高分:",max(score),"最低分:",min(score))
+
+#def test(a1,*a2):
+#    print('a1={0}'.format(a1))
+#    print(type(a2))
+#    for d in a2:
+#        print(d, end='')
+#data=[0,1,2,3,4,5]        
+#test(data,*data)
+
+#import sys
+#def Encrypt(s):
+#    return chr(ord('A')+(ord(s)-ord('A')+3)%26)
+#def Decrypt(s):
+#    return chr(ord('A')+(ord(s)-ord('A')-3)%26)
+#
+#for line in sys.stdin:
+#    OP = line.split()
+#    ...
