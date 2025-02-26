@@ -815,14 +815,18 @@
 #
 #print(pikachu1.__class__)
 
-def AddAll(data):
-    for i in range(1,len(data)):
-        data[i]+=data[i-1]
-    return data[i]
-    
-data = [1,2,3,4,5]
-print(AddAll(data))
-print(data)
+#def AddAll(data):
+#    for i in range(1,len(data)):
+#        data[i]+=data[i-1]
+#    return data[i]
+#    
+#data = (1,2,3,4,5)
+#data1 = list(data)
+#print(AddAll(data1))
+#print(data)
+
+#g=(1,)
+#print(type(g))
 
 #B = (1,)
 #print(B)
@@ -868,3 +872,9 @@ print(data)
 #for line in sys.stdin:
 #    OP = line.split()
 #    ...
+
+a={1,2,3}
+b=('a','b','c')
+c=[0.1,0.2,0.3]
+print(tuple(zip(a,b,c)))
+print(*tuple(zip(a,b,c)))

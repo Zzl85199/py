@@ -2,7 +2,7 @@ import random, time, pygame, sys
 from pygame.locals import *
 
 FPS = 25
-視窗寬度 = 640
+視窗寬度 = 640  
 視窗高度 = 480
 格子大小 = 20
 格子寬度 = 10
@@ -398,7 +398,7 @@ def 跑遊戲():
     最後落下時間 = time.time()
     最後平移時間 = time.time()
     最後下落時間 = time.time()
-    下移 = False # note: there is no movingUp variable
+    下移 = False
     左移 = False
     右移 = False
     分數 = 0
@@ -406,38 +406,38 @@ def 跑遊戲():
 
     下落方塊 = 取得新的一塊()
     下一個方塊 = 取得新的一塊()
+    暫存方塊 = None  # 新增：暫存方塊
+    已暫存 = False  # 新增：每回合只能暫存一次
 
-    while True: # 遊戲的迴圈
-        if 下落方塊 == None:
-            # No falling 方塊 in play, so start a new 方塊 at the top
+    while True:  # 遊戲的迴圈
+        if 下落方塊 is None:
+            # 沒有下落方塊時，生成新的方塊
             下落方塊 = 下一個方塊
             下一個方塊 = 取得新的一塊()
-            最後下落時間 = time.time() # reset 最後下落時間
+            最後下落時間 = time.time()
 
             if not 判斷(板子, 下落方塊):
-                return # 因為放不下了，所以 game over
+                return  # 遊戲結束
 
         點選離開()
-        for event in pygame.event.get(): # event handling loop
+        for event in pygame.event.get():  # 事件處理
             if event.type == KEYUP:
-                if (event.key == K_p):
-                    # Pausing the game
+                if event.key == K_p:
                     顯示介面.fill(背景顏色)
                     pygame.mixer.music.stop()
-                    顯示文字螢幕('Paused') # pause until a key press
+                    顯示文字螢幕('Paused')
                     pygame.mixer.music.play(-1, 0.0)
                     最後下落時間 = time.time()
                     最後落下時間 = time.time()
                     最後平移時間 = time.time()
-                elif (event.key == K_LEFT or event.key == K_a):
+                elif event.key in (K_LEFT, K_a):
                     左移 = False
-                elif (event.key == K_RIGHT or event.key == K_d):
+                elif event.key in (K_RIGHT, K_d):
                     右移 = False
-                elif (event.key == K_DOWN or event.key == K_s):
+                elif event.key in (K_DOWN, K_s):
                     下移 = False
 
             elif event.type == KEYDOWN:
-                # moving the 方塊 sideways
                 if (event.key == K_LEFT or event.key == K_a) and 判斷(板子, 下落方塊, adjX=-1):
                     下落方塊['x'] -= 1
                     左移 = True
@@ -450,24 +450,22 @@ def 跑遊戲():
                     左移 = False
                     最後平移時間 = time.time()
 
-                # rotating the 方塊 (if there is room to rotate)
-                elif (event.key == K_UP or event.key == K_w):
+                elif event.key == K_UP or event.key == K_w:
                     下落方塊['rotation'] = (下落方塊['rotation'] + 1) % len(PIECES[下落方塊['shape']])
                     if not 判斷(板子, 下落方塊):
                         下落方塊['rotation'] = (下落方塊['rotation'] - 1) % len(PIECES[下落方塊['shape']])
-                elif (event.key == K_q): # rotate the other direction
+
+                elif event.key == K_q:
                     下落方塊['rotation'] = (下落方塊['rotation'] - 1) % len(PIECES[下落方塊['shape']])
                     if not 判斷(板子, 下落方塊):
                         下落方塊['rotation'] = (下落方塊['rotation'] + 1) % len(PIECES[下落方塊['shape']])
 
-                # making the 方塊 fall faster with the down key
-                elif (event.key == K_DOWN or event.key == K_s):
+                elif event.key == K_DOWN or event.key == K_s:
                     下移 = True
                     if 判斷(板子, 下落方塊, adjY=1):
                         下落方塊['y'] += 1
                     最後落下時間 = time.time()
 
-                # move the current 方塊 all the way down
                 elif event.key == K_SPACE:
                     下移 = False
                     左移 = False
@@ -477,42 +475,37 @@ def 跑遊戲():
                             break
                     下落方塊['y'] += i - 1
 
-        # handle moving the 方塊 because of user input
-        if (左移 or 右移) and time.time() - 最後平移時間 > 左右移動變化頻率:
-            if 左移 and 判斷(板子, 下落方塊, adjX=-1):
-                下落方塊['x'] -= 1
-            elif 右移 and 判斷(板子, 下落方塊, adjX=1):
-                下落方塊['x'] += 1
-            最後平移時間 = time.time()
+                elif event.key == K_c or event.key == K_LSHIFT:  # 加入Keep功能
+                    if not 已暫存:  # 每回合只能暫存一次
+                        if 暫存方塊 is None:
+                            暫存方塊 = 下落方塊
+                            下落方塊 = 下一個方塊
+                            下一個方塊 = 取得新的一塊()
+                        else:
+                            暫存方塊, 下落方塊 = 下落方塊, 暫存方塊  # 交換
+                        下落方塊['x'] = int(格子寬度 / 2) - int(方塊寬度 / 2)
+                        下落方塊['y'] = -2  # 重置位置
+                        已暫存 = True  # 本回合已暫存
 
-        if 下移 and time.time() - 最後落下時間 > 向下移動變化頻率 and 判斷(板子, 下落方塊, adjY=1):
-            下落方塊['y'] += 1
-            最後落下時間 = time.time()
+        if not 判斷(板子, 下落方塊, adjY=1):
+            增加分數(板子, 下落方塊)
+            分數 += 消除完成的一條線(板子)
+            等級, 下落頻率 = 計算關卡與下落頻率(分數)
+            下落方塊 = None
+            已暫存 = False  # 允許下一回合使用 Keep
 
-        # let the 方塊 fall if it is time to fall
-        if time.time() - 最後下落時間 > 下落頻率:
-            # see if the 方塊 has landed
-            if not 判斷(板子, 下落方塊, adjY=1):
-                # falling 方塊 has landed, set it on the 板子
-                增加分數(板子, 下落方塊)
-                分數 += 消除完成的一條線(板子)
-                等級, 下落頻率 = 計算關卡與下落頻率(分數)
-                下落方塊 = None
-            else:
-                # 方塊 did not land, just move the 方塊 down
-                下落方塊['y'] += 1
-                最後下落時間 = time.time()
-
-        # drawing everything on the screen
         顯示介面.fill(背景顏色)
         畫板子(板子)
         畫狀態(分數, 等級)
         畫新的一塊(下一個方塊)
-        if 下落方塊 != None:
+        if 暫存方塊:
+            畫方塊(暫存方塊, X像素=視窗寬度-120, Y像素=180)  # 顯示暫存方塊
+        if 下落方塊 is not None:
             畫方塊(下落方塊)
 
         pygame.display.update()
         FPS計時.tick(FPS)
+
 
 
 def makeTextObjs(text, font, color):
