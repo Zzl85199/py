@@ -875,6 +875,8 @@
 
 a={1,2,3}
 b=('a','b','c')
-c=[0.1,0.2,0.3]
+d=('b','c')
+print((set(b)|set(d))-(set(b)&set(d)))
+c=[0.1,0.2]
 print(tuple(zip(a,b,c)))
-print(*tuple(zip(a,b,c)))
+#print(*tuple(zip(a,b,c)))
